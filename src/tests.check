@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include "back/calc.h"
+
+#define EPS 1e-7
+
+#test res_test1
+    char *e = "1+1";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(2, res, EPS);
+#test res_test2
+    char *e = "1-1 + 2*2";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(4, res, EPS);
+#test res_test3
+    char *e = "1 + 2 * cos(-0) + cos(x)";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(4, res, EPS);
+#test res_test4
+    char *e = "-2^2";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(4, res, EPS);
+#test res_test5
+    char *e = "asin(0) * (5 + 1)";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(0, res, EPS);
+#test res_test61
+    char *e = "1 + ";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_int_eq(4, error_code);
+#test res_test62
+    char *e = "* / 1";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_int_eq(4, error_code);
+#test res_test7
+    char *e = "1 2";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_int_eq(5, error_code);
+#test res_test8
+    char *e = "sin";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_int_eq(2, error_code);
+#test res_test9
+    char *e = "sin()";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_int_eq(4, error_code);
+#test res_test10
+    char *e = "1+-sintancos1";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(0.435489, res, EPS);
+#test res_test11
+    char *e = "ln1";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(.0, res, EPS);
+#test res_test12
+    char *e = "[]";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_int_eq(1, error_code);
+#test res_test13
+    char *e = "   ";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_int_eq(1, error_code);
+#test res_test14
+    char *e = "sin 0";
+    double res, x =0;
+    int error_code;
+    calculator(e, x, &res, &error_code);
+    ck_assert_double_eq_tol(.0, res, EPS);
